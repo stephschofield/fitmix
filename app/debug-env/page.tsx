@@ -13,7 +13,7 @@ export default function DebugEnvPage() {
   useEffect(() => {
     setClientVars({
       clientId: process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_ID || "Not set",
-      redirectUri: process.env.NEXT_PUBLIC_SPOTIFY_REDIRECT_URI || "Not set",
+      redirectUri: `${window.location.origin}/spotify-callback`,
       origin: window.location.origin,
     })
   }, [])
@@ -30,14 +30,14 @@ export default function DebugEnvPage() {
               <h3 className="font-medium">Client-side Environment Variables:</h3>
               <ul className="list-disc pl-5 mt-2">
                 <li>NEXT_PUBLIC_SPOTIFY_CLIENT_ID: {clientVars.clientId}</li>
-                <li>NEXT_PUBLIC_SPOTIFY_REDIRECT_URI: {clientVars.redirectUri}</li>
+                <li>Computed Redirect URI: {clientVars.redirectUri}</li>
                 <li>window.location.origin: {clientVars.origin}</li>
               </ul>
             </div>
             <div>
               <h3 className="font-medium">Computed Redirect URI:</h3>
               <p className="mt-2 font-mono text-sm bg-gray-100 dark:bg-gray-800 p-2 rounded">
-                {clientVars.redirectUri || `${clientVars.origin}/spotify-callback`}
+                {clientVars.redirectUri}
               </p>
               <p className="text-sm text-gray-500 mt-1">
                 This is the exact URI that should be registered in your Spotify Developer Dashboard

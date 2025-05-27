@@ -11,7 +11,7 @@ export async function POST(request: NextRequest) {
     // Get environment variables
     const clientId = process.env.SPOTIFY_CLIENT_ID
     const clientSecret = process.env.SPOTIFY_CLIENT_SECRET
-    const redirectUri = process.env.SPOTIFY_REDIRECT_URI || `${request.nextUrl.origin}/spotify-callback`
+    const redirectUri = `${request.nextUrl.origin}/spotify-callback`
 
     // Log environment variables (without exposing secrets)
     console.log("Client ID exists:", !!clientId)
