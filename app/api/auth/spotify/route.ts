@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server"
 import { cookies } from "next/headers"
 
-export async function GET(request: Request) {
+export async function GET() {
   try {
     // Generate a random state value for CSRF protection
     const state = Math.random().toString(36).substring(2, 15)
@@ -16,12 +16,11 @@ export async function GET(request: Request) {
 
     // Get environment variables directly
     const clientId = process.env.SPOTIFY_CLIENT_ID
-    const url = new URL(request.url)
-    const redirectUri = `${url.origin}/spotify-callback`
+    const redirectUri = process.env.SPOTIFY_REDIRECT_URI
 
-    if (!clientId) {
+    if (!clientId || !redirectUri) {
       console.error("Missing required Spotify environment variables")
-      return NextResponse.redirect(new URL("/login?error=missing_env_vars", url.origin))
+      return NextResponse.redirect(new URL("/login?error=missing_env_vars", "http://localhost:3000"))
     }
 
     // Define scopes for Spotify API access
@@ -51,7 +50,6 @@ export async function GET(request: Request) {
     return NextResponse.redirect(authUrl)
   } catch (error) {
     console.error("Error initiating Spotify auth:", error)
-    const url = new URL(request.url)
-    return NextResponse.redirect(new URL("/login?error=auth_init_failed", url.origin))
+    return NextResponse.redirect(new URL("/login?error=auth_init_failed", "http://localhost:3000"))
   }
 }

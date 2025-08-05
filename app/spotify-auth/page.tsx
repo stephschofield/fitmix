@@ -12,9 +12,9 @@ export default function SpotifyAuthPage() {
 
   useEffect(() => {
     try {
-      // Get runtime configuration
+      // Collect debug info
       const clientId = process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_ID
-      const redirectUri = `${window.location.origin}/spotify-callback`
+      const redirectUri = process.env.NEXT_PUBLIC_SPOTIFY_REDIRECT_URI || `${window.location.origin}/spotify-callback`
 
       setDebugInfo({
         clientId: clientId ? "✅ Set" : "❌ Missing",
